@@ -1,0 +1,35 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <form method="POST">
+        <div class="form-group">
+            <label for="feature1">Feature1</label>
+            <input
+                    class="form-control"
+                    id="feature1"
+                    name="feature1"
+                    placeholder="Enter feature1"
+            />
+        </div>
+        <div class="form-group">
+            <label for="feature2">Feature2</label>
+            <input
+                    class="form-control"
+                    id="feature2"
+                    name="feature2"
+                    placeholder="Enter feature2"
+            />
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <input
+                    class="form-control"
+                    id="category"
+                    name="category"
+                    placeholder="Enter category"
+            />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+{% endblock %}
