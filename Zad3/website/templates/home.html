@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Home</title>
-    <style>
-        nav {
-            background-color: #333;
-            padding: 10px;
-        }
-        .navbar-nav {
-            display: flex;
-            justify-content: space-around;
-        }
-        .nav-item {
-            color: white;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-            width: 25%;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home</title>
+  <style>
+    nav {
+      background-color: #333;
+      padding: 10px;
+    }
+    .navbar-nav {
+      display: flex;
+      justify-content: space-around;
+    }
+    .nav-item {
+      color: white;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+      width: 25%;
+    }
+  </style>
 </head>
 <body>
-<nav>
+  <nav>
     <div class="navbar-nav">
-        <a class="nav-item" href="/">Home page</a>
-        <a class="nav-item" href="/add">Add</a>
+      <a class="nav-item" href="/">Home page</a>
+      <a class="nav-item" href="/add">Add</a>
     </div>
-</nav>
+  </nav>
 
-<div class="container">
+  <div class="container">
     {% block content %}
-        <table>
-            <thead>
+      <table>
+        <thead>
+          <tr>
+            <th>Record Number</th>
+            <th>Feature 1</th>
+            <th>Feature 2</th>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for datapoints in DataPoints %}
             <tr>
-                <th>Record Number</th>
-                <th>Feature 1</th>
-                <th>Feature 2</th>
-                <th>Category</th>
-                <th>Action</th>
+              <td>{{ loop.index }}</td>
+              <td>{{ datapoints.feature1 }}</td>
+              <td>{{ datapoints.feature2 }}</td>
+              <td>{{ datapoints.category }}</td>
+              <td class="button-td">
+                <form method="post" action="{{ url_for('website.delete', uid=datapoints.uid) }}">
+                  <button type="submit" class="delete-button">Delete</button>
+                </form>
+              </td>
             </tr>
-            </thead>
-            <tbody>
-            {% for datapoints in DataPoints %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ datapoints.feature1 }}</td>
-                    <td>{{ datapoints.feature2 }}</td>
-                    <td>{{ datapoints.category }}</td>
-                    <td class="button-td">
-                        <form method="post" action="{{ url_for('website.delete', uid=datapoints.uid) }}">
-                            <button type="submit" class="delete-button">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+          {% endfor %}
+        </tbody>
+      </table>
     {% endblock %}
-</div>
+  </div>
 </body>
 </html>
