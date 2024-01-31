@@ -2,12 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 
-#inicjalizacja obiektu sqlalchemy, komunikacja z baza
+# inicjalizacja obiektu sqlalchemy, komunikacja z baza
 db = SQLAlchemy()
 
 db_name = "data.db"
 
-#def. funkcji tworzace app
+
+# def. funkcji tworzace app
 def web_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Python'
@@ -20,7 +21,8 @@ def web_app():
     create_db(app)
     return app
 
-#def fun tworzacej baze
+
+# def fun tworzacej baze
 def create_db(app):
     if not path.exists('instance/' + db_name):
         with app.app_context():
