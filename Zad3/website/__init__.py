@@ -17,7 +17,7 @@ def web_app():
     from .website import website
     app.register_blueprint(website, url_prefix='/')
     from .api import api
-    app.register_blueprint(api, url_prefix='/')
+    app.register_blueprint(api, url_prefix='/api')
     create_db(app)
     return app
 

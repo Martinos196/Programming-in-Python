@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort
 from . import db
-import uuid
 
 
 # sprawdza czy wartosc moze byc zmieniona na float
@@ -33,18 +32,15 @@ def home():
 @website.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        try:
-            if (is_float(request.form.get('feature1')) and is_float(request.form.get('feature2'))
-                    and request.form.get('category').isdigit()):
-                new_data = DataPoint(feature1=float(request.form.get('feature1')),
-                                     feature2=float(request.form.get('feature2')),
-                                     category=request.form.get('category'))
-                db.session.add(new_data)
-                db.session.commit()
-            else:
-                raise ValueError("Wrong data")
-        except Exception as e:
-            print(e)
+
+        if (is_float(request.form.get('feature1')) and is_float(request.form.get('feature2'))
+                and request.form.get('category').isdigit()):
+            new_data = DataPoint(feature1=float(request.form.get('feature1')),
+                                 feature2=float(request.form.get('feature2')),
+                                 category=request.form.get('category'))
+            db.session.add(new_data)
+            db.session.commit()
+        else:
             abort(400)
         return redirect(url_for('website.home'))
     return render_template("add.html")
@@ -53,14 +49,10 @@ def add():
 # def trasy dla usuwania danych na podstawie uid
 @website.route('/delete/<int:uid>', methods=['GET', 'POST'])
 def delete(uid):
-    try:
-        deleted_data = DataPoint.query.get(uid)
-        if deleted_data:
-            db.session.delete(deleted_data)
-            db.session.commit()
-        else:
-            raise ValueError("Not found")
-    except Exception as e:
-        print(e)
+    deleted_data = DataPoint.query.get(uid)
+    if deleted_data:
+        db.session.delete(deleted_data)
+        db.session.commit()
+    else:
         abort(404)
     return redirect(url_for('website.home'))

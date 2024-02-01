@@ -25,32 +25,26 @@ def api_data():
                       'category': point.category} for point in data]
         return jsonify(data_list)
     elif request.method == 'POST':
-        try:
-            data = request.json
-            # sprawdzenie czy dane wejsciowe sa float
-            if is_float(data['feature1']) and is_float(data['feature2']) and data['category'].isdigit():
-                new_data = DataPoint(feature1=float(data['feature1']), feature2=float(data['feature2']),
-                                     category=int(data['category']))
-                db.session.add(new_data)
-                db.session.commit()
-                return jsonify({'id': new_data.uid}), 201
-            else:
-                return jsonify({'error': 'Invalid data'}), 400
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
+        data = request.json
+        # sprawdzenie czy dane wejsciowe sa float
+        if is_float(data['feature1']) and is_float(data['feature2']) and data['category'].isdigit():
+            new_data = DataPoint(feature1=float(data['feature1']), feature2=float(data['feature2']),
+                                 category=int(data['category']))
+            db.session.add(new_data)
+            db.session.commit()
+            return jsonify({'id': new_data.uid}), 201
+        else:
+            return jsonify({'error': 'Invalid data'}), 400
 
 
 # def. trasy dla endpointu obslugujacej metode delete
 @api.route('/api/data/<int:uid>', methods=['DELETE'])
 def delete_data(uid):
-    try:
-        deleted_data = DataPoint.query.get(uid)
-        if deleted_data:
-            db.session.delete(deleted_data)
-            db.session.commit()
-            return jsonify({'uid': uid}), 200
-        else:
-            return jsonify({'error': 'Not found'}), 404
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    deleted_data = DataPoint.query.get(uid)
+    if deleted_data:
+        db.session.delete(deleted_data)
+        db.session.commit()
+        return jsonify({'uid': uid}), 200
+    else:
+        return jsonify({'error': 'Not found'}), 404
     
